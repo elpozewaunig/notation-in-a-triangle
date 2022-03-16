@@ -1,20 +1,96 @@
 <html>
 <head>
   <title> Sync Tool </title>
+
+  <style>
+  body {
+    font-family: Arial;
+    margin: 0px;
+    background-color: #2c2c2c;
+    color: #ffffff;
+  }
+  div#controls {
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  div#controls audio {
+    width: 90vw;
+  }
+  div#hint {
+    margin-top: 5px;
+    font-size: 12px;
+  }
+  div#download {
+    display: inline-block;
+    cursor: pointer;
+    background-color: #007ebd;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.1s all ease-in-out;
+  }
+  div#download:hover {
+    background-color: #00699d;
+  }
+  </style>
+
+  <script src="node_modules/pixi.js/dist/browser/pixi.js"></script>
 </head>
 
 <body>
-  <audio id="audio" src="assets/audio.mp3" controls></audio>
+  <div id="controls">
+    <audio id="audio" src="assets/audio.mp3" controls></audio>
+    <div id="hint"> Press any key to record the current timestamp </div>
+    <div id="download" onclick="download_timestamps()">Download timestamps</div>
+  </div>
   <script>
+  // Sync Tool
   var audio = document.getElementById("audio");
   audio.playbackRate = 0.5;
-  audio.play()
-   results = [];
-   document.addEventListener('keydown', function() {
+  results = [];
+  document.addEventListener('keydown', function() {
      var time = audio.currentTime
      console.log(time);
      results.push(time);
    });
+
+   // Visual Display
+   let app = new PIXI.Application({ width: document.body.clientWidth, height: 60, antialias: true});
+   document.body.appendChild(app.view);
+
+   let circles = new PIXI.Graphics();
+   app.stage.addChild(circles);
+   app.ticker.add((delta) => {
+     circles.clear();
+     circles.lineStyle(0);
+     results.forEach((item) => {
+       circles.beginFill(0xFFFFFF);
+       circles.drawCircle(rel_pos_x(item / audio.duration), 30, 1);
+       circles.endFill();
+     });
+   });
+
+   window.onresize = function () {
+     app.renderer.resize(window.innerWidth, 60);
+   };
+
+   function rel_pos_x(value) {
+     return app.renderer.width * value;
+   }
+
+   function download_timestamps() {
+     var elm = document.createElement("a");
+     elm.setAttribute("href", "data:text/plain;charset=utf-8,"+encodeURIComponent(results.toString()));
+     elm.setAttribute("download", "timestamps.txt");
+     elm.style.display = "none";
+     document.body.appendChild(elm);
+     elm.click();
+     document.body.removeChild(elm);
+   }
    </script>
+
 </body>
 </html>
