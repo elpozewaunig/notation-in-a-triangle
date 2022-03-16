@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title> Sync Tool </title>
+</head>
+
+<body>
+  <audio id="audio" src="assets/audio.mp3" controls></audio>
+  <script>
+  var audio = document.getElementById("audio");
+  audio.playbackRate = 0.5;
+  audio.play()
+   results = [];
+   document.addEventListener('keydown', function() {
+     var time = audio.currentTime
+     console.log(time);
+     results.push(time);
+   });
+   </script>
+</body>
+</html>
