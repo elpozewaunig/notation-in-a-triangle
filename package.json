@@ -1,0 +1,22 @@
+{
+  "name": "notation-in-a-triangle",
+  "version": "1.0.0",
+  "description": "It's graphic notation of a song. In a triangle. Yeah, that's about it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elpozewaunig/notation-in-a-triangle.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elpozewaunig/notation-in-a-triangle/issues"
+  },
+  "homepage": "https://github.com/elpozewaunig/notation-in-a-triangle#readme",
+  "dependencies": {
+    "pixi.js": "^6.2.2"
+  }
+}
