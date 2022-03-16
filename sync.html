@@ -62,10 +62,20 @@
    document.body.appendChild(app.view);
 
    let circles = new PIXI.Graphics();
+   let indicator = new PIXI.Graphics();
    app.stage.addChild(circles);
+   app.stage.addChild(indicator);
+
    app.ticker.add((delta) => {
      circles.clear();
      circles.lineStyle(0);
+
+     indicator.clear();
+     indicator.lineStyle(0);
+     indicator.beginFill(0xFF0000);
+     indicator.drawRect(rel_pos_x(audio.currentTime / audio.duration), 0, 1, 60);
+     indicator.endFill();
+
      results.forEach((item) => {
        circles.beginFill(0xFFFFFF);
        circles.drawCircle(rel_pos_x(item / audio.duration), 30, 1);
